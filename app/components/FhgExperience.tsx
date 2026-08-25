@@ -6,8 +6,8 @@ const STORAGE_KEY = 'fhg-current-scene';
 const scenes = [
   { title: 'Your future should not depend on one option', eyebrow: 'Opening Hook', type: 'hero' },
   { title: 'Having ambition is good. Having a system is better.', eyebrow: 'The Reality', type: 'statement' },
-  { title: 'What Is FHG?', eyebrow: 'The foundation', type: 'definition' },
-  { title: 'The Two-Part System', eyebrow: 'A balanced approach', type: 'split' },
+  { title: 'So, what exactly is FHG?', eyebrow: 'What Is FHG?', type: 'definition' },
+  { title: 'One community. Two development paths.', eyebrow: 'The Two-Part System', type: 'split' },
   { title: 'How It Works', eyebrow: 'A simple path', type: 'steps' },
   { title: 'What Members Develop', eyebrow: 'Practical growth', type: 'cards' },
   { title: 'Who It May Suit', eyebrow: 'Consider the fit', type: 'profile' },
@@ -54,10 +54,49 @@ function SceneTwo() {
   </div>;
 }
 
+function SceneThree() {
+  return <div className="definition-layout">
+    <div className="definition-copy">
+      <p><strong>FHG</strong> stands for <strong>Faith Heroic Generation.</strong> It is a Nigerian business and personal-development community that combines digital-skills learning with product-based network marketing.</p>
+      <p>Members are introduced to practical online skills, communication, leadership, product education and business-building principles.</p>
+      <aside className="definition-clarification"><span>Important clarification</span><p>FHG is not an employer and does not pay salaries. It provides a learning and business-development system. Individual results depend on effort, skills, consistency, customer demand and other circumstances.</p></aside>
+    </div>
+    <div className="verified-editor-wrap">
+      <div className="editor-label"><span>Verified information only</span><b>Editable area</b></div>
+      <div className="verified-editor" contentEditable suppressContentEditableWarning role="textbox" aria-multiline="true" aria-label="Verified FHG history, leadership and official information">INSERT VERIFIED FHG HISTORY, LEADERSHIP AND OFFICIAL INFORMATION HERE.</div>
+      <p>Dates, leaders, products, statistics and achievements should only be added after verification.</p>
+    </div>
+  </div>;
+}
+
+const digitalSkills = ['Website design', 'Graphic design', 'Content writing', 'Social media management', 'Digital marketing', 'Other approved FHG skills'];
+
+function SceneFour() {
+  return <div className="system-diagram" aria-label="The two connected FHG development paths">
+    <article className="path path-skills">
+      <div className="path-heading"><span>01</span><h2>Digital skills</h2></div>
+      <p>Learn practical skills that may be used to offer legitimate services to clients online or offline.</p>
+      <ul>{digitalSkills.map(skill => <li key={skill}>{skill}</li>)}</ul>
+      <small>Available training may vary by location, team and programme.</small>
+    </article>
+    <div className="system-connector" aria-label="Skills plus business plus personal development">
+      <i aria-hidden="true" />
+      <div><span>Skills</span><b>+</b><span>Business</span><b>+</b><span>Personal development</span></div>
+      <i aria-hidden="true" />
+    </div>
+    <article className="path path-business">
+      <div className="path-heading"><span>02</span><h2>Network marketing</h2></div>
+      <p>Learn how to understand, use and recommend genuine products, serve customers, communicate professionally and build a team through responsible duplication.</p>
+      <div className="earnings-note"><span>Clarity on earnings</span><p>Earnings are not guaranteed. They may depend on genuine product sales, customer activity, team performance and the applicable compensation plan.</p></div>
+    </article>
+  </div>;
+}
+
 function SceneBody({ type, onNavigate }: { type: typeof scenes[number]['type']; onNavigate: (index: number) => void }) {
   if (type === 'hero') return <SceneOne onContinue={() => onNavigate(1)} />;
   if (type === 'statement') return <SceneTwo />;
-  if (type === 'split') return <div className="two-up"><article><strong>01</strong><h2>Foundation one</h2><Placeholder /></article><article><strong>02</strong><h2>Foundation two</h2><Placeholder /></article></div>;
+  if (type === 'definition') return <SceneThree />;
+  if (type === 'split') return <SceneFour />;
   if (type === 'steps') return <div className="steps">{['Discover', 'Understand', 'Decide'].map((x, i) => <article key={x}><span>{i + 1}</span><div><h2>{x}</h2><Placeholder lines={1} /></div></article>)}</div>;
   if (type === 'cards') return <div className="card-grid">{['Capability', 'Confidence', 'Community'].map((x, i) => <article key={x}><span className="mini-icon">{String(i + 1).padStart(2, '0')}</span><h2>{x}</h2><Placeholder lines={2} /></article>)}</div>;
   if (type === 'profile') return <div className="profile-layout"><div className="profile-ring">?</div><div><p className="intro small">A thoughtful fit-check will live here.</p><Placeholder lines={3} /></div></div>;
