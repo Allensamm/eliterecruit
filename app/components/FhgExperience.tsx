@@ -4,8 +4,8 @@ import { FormEvent, ReactNode, useCallback, useEffect, useRef, useState } from '
 const TRANSITION_MS = 600;
 const STORAGE_KEY = 'fhg-current-scene';
 const scenes = [
-  { title: 'Opening Hook', eyebrow: 'A clearer way forward', type: 'hero' },
-  { title: 'The Reality', eyebrow: 'Start with the facts', type: 'statement' },
+  { title: 'Your future should not depend on one option', eyebrow: 'Opening Hook', type: 'hero' },
+  { title: 'Having ambition is good. Having a system is better.', eyebrow: 'The Reality', type: 'statement' },
   { title: 'What Is FHG?', eyebrow: 'The foundation', type: 'definition' },
   { title: 'The Two-Part System', eyebrow: 'A balanced approach', type: 'split' },
   { title: 'How It Works', eyebrow: 'A simple path', type: 'steps' },
@@ -25,8 +25,38 @@ function Placeholder({ lines = 2 }: { lines?: number }) {
   return <div className="placeholder-copy" aria-label="Content placeholder">{Array.from({ length: lines }, (_, i) => <span key={i} />)}</div>;
 }
 
-function SceneBody({ type }: { type: typeof scenes[number]['type'] }) {
-  if (type === 'hero') return <><p className="intro">A guided introduction to FHG, presented with clarity and care.</p><div className="hero-mark" aria-hidden="true"><i /><b>FHG</b><i /></div><p className="placeholder-note">Full story and messaging will be added next.</p></>;
+function SceneOne({ onContinue }: { onContinue: () => void }) {
+  return <div className="opening-layout">
+    <div className="opening-copy">
+      <p className="opening-body">Work, school and business can give you a starting point. But learning a practical skill, developing yourself and understanding how to build a real business can give you more options.</p>
+      <p className="supporting-line">Discover how FHG combines <strong>digital skills</strong>, <strong>personal development</strong> and <strong>product-based network marketing</strong>.</p>
+      <button className="primary-cta" onClick={onContinue}>Show me how it works <span>↓</span></button>
+      <p className="honesty-note"><span>i</span>This is not a salaried job, investment scheme or guaranteed-income programme.</p>
+    </div>
+    <figure className="opening-image">
+      {/* Local temporary asset; plain img avoids the Vinext image shim in this client-only scene. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/fhg-scene-1.jpg" alt="A young Nigerian professional working from a laptop in a relaxed Lagos workspace" />
+      <figcaption><span>Temporary image</span><a href="https://unsplash.com/photos/a-man-sitting-on-a-couch-using-a-laptop-computer-LE2fKER-4sA" target="_blank" rel="noreferrer">Lagos, Nigeria · Ninthgrid / Unsplash</a></figcaption>
+    </figure>
+    <p className="scene-swipe-cue"><span>↕</span> Swipe or scroll to continue</p>
+  </div>;
+}
+
+function SceneTwo() {
+  return <div className="reality-layout">
+    <div className="reality-copy">
+      <p>Many students, graduates and workers want to improve their lives but do not know which skill to learn, how to find guidance or how to start building something of their own.</p>
+      <p>The problem is not always a lack of effort. Sometimes, it is a lack of practical training, mentorship, community and a clear system to follow.</p>
+    </div>
+    <div className="reality-pillars" aria-label="The three parts of a stronger system">{['Skills', 'Mentorship', 'Community'].map((word, index) => <div key={word}><span>0{index + 1}</span><strong>{word}</strong></div>)}</div>
+    <p className="closing-question">What could change if you had the right skills, support and environment?</p>
+  </div>;
+}
+
+function SceneBody({ type, onNavigate }: { type: typeof scenes[number]['type']; onNavigate: (index: number) => void }) {
+  if (type === 'hero') return <SceneOne onContinue={() => onNavigate(1)} />;
+  if (type === 'statement') return <SceneTwo />;
   if (type === 'split') return <div className="two-up"><article><strong>01</strong><h2>Foundation one</h2><Placeholder /></article><article><strong>02</strong><h2>Foundation two</h2><Placeholder /></article></div>;
   if (type === 'steps') return <div className="steps">{['Discover', 'Understand', 'Decide'].map((x, i) => <article key={x}><span>{i + 1}</span><div><h2>{x}</h2><Placeholder lines={1} /></div></article>)}</div>;
   if (type === 'cards') return <div className="card-grid">{['Capability', 'Confidence', 'Community'].map((x, i) => <article key={x}><span className="mini-icon">{String(i + 1).padStart(2, '0')}</span><h2>{x}</h2><Placeholder lines={2} /></article>)}</div>;
@@ -75,5 +105,5 @@ export default function FhgExperience() {
   }, [canScrollInside, go]);
   function onTouchStart(event: React.TouchEvent) { touchStart.current = { y: event.touches[0].clientY, target: event.target }; }
   function onTouchEnd(event: React.TouchEvent) { if (!touchStart.current) return; const distance = touchStart.current.y - event.changedTouches[0].clientY; if (Math.abs(distance) > 48 && !canScrollInside(touchStart.current.target, distance)) go(currentRef.current + (distance > 0 ? 1 : -1)); touchStart.current = null; }
-  return <main className="experience" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}><header className="topbar"><a className="brand" href="#scene-1" onClick={(e) => { e.preventDefault(); go(0); }} aria-label="Allen Samuel home"><span>AS</span><div><b>Allen Samuel</b><small>FHG Explainer</small></div></a><button className="skip" onClick={() => go(10)}>Skip to Application <span>↘</span></button></header><div className="scene-stage" style={{ transform: `translate3d(0, -${current * 100}%, 0)` }}>{scenes.map((scene, index) => <div id={`scene-${index + 1}`} className="scene-slot" key={scene.title} aria-hidden={index !== current} inert={index !== current}><SceneFrame index={index} eyebrow={scene.eyebrow} title={scene.title}><SceneBody type={scene.type} /></SceneFrame></div>)}</div><Progress current={current} onSelect={go} /><Navigation current={current} go={go} /><p className="scroll-hint" aria-hidden="true"><span /> Scroll to explore</p><div className="ambient ambient-one" /><div className="ambient ambient-two" /></main>;
+  return <main className="experience" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}><header className="topbar"><a className="brand" href="#scene-1" onClick={(e) => { e.preventDefault(); go(0); }} aria-label="Allen Samuel home"><span>AS</span><div><b>Allen Samuel</b><small>FHG Explainer</small></div></a><button className="skip" onClick={() => go(10)}>Skip to Application <span>↘</span></button></header><div className="scene-stage" style={{ transform: `translate3d(0, -${current * 100}%, 0)` }}>{scenes.map((scene, index) => <div id={`scene-${index + 1}`} className="scene-slot" key={scene.title} aria-hidden={index !== current} inert={index !== current}><SceneFrame index={index} eyebrow={scene.eyebrow} title={scene.title}><SceneBody type={scene.type} onNavigate={go} /></SceneFrame></div>)}</div><Progress current={current} onSelect={go} /><Navigation current={current} go={go} /><p className="scroll-hint" aria-hidden="true"><span /> Scroll to explore</p><div className="ambient ambient-one" /><div className="ambient ambient-two" /></main>;
 }
