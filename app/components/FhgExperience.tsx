@@ -6,6 +6,9 @@ const STORAGE_KEY = 'fhg-current-scene';
 const scenes = [
   { title: 'Your future should not depend on one option', eyebrow: '', type: 'hero' },
   { title: 'Having ambition is good. Having a system is better.', eyebrow: 'The Reality', type: 'statement' },
+  { title: 'Why do some people choose network marketing?', eyebrow: 'A Practical Business Model', type: 'network-model' },
+  { title: 'Understanding how people earn and build', eyebrow: 'The Wealth Quadrant', type: 'wealth-quadrant' },
+  { title: 'Why combine digital skills with network marketing?', eyebrow: 'The FHG Starting Approach', type: 'skills-bridge' },
   { title: 'So, what exactly is FHG?', eyebrow: 'What Is FHG?', type: 'definition' },
   { title: 'One community. Two development paths.', eyebrow: 'The Two-Part System', type: 'split' },
   { title: 'What happens when someone decides to learn more?', eyebrow: 'How the Journey Works', type: 'steps' },
@@ -50,6 +53,68 @@ function SceneTwo() {
     </div>
     <div className="reality-pillars" aria-label="The three parts of a stronger system">{['Skills', 'Mentorship', 'Community'].map((word, index) => <div key={word}><span>0{index + 1}</span><strong>{word}</strong></div>)}</div>
     <p className="closing-question">What could change if you had the right skills, support and environment?</p>
+  </div>;
+}
+
+const networkParts = [
+  ['Products', 'Understand and recommend genuine products that provide value to customers.'],
+  ['Customers', 'Build trust, serve people properly and encourage repeat business.'],
+  ['Team', 'Train interested adults who choose to build their own independent businesses.'],
+  ['Duplication', 'Teach a clear system that responsible team members can understand and repeat.'],
+] as const;
+
+function NetworkModelScene() {
+  const [active, setActive] = useState(0);
+  return <div className="network-model-layout">
+    <div className="chapter-opening"><p>As the cost of food, transportation, accommodation, education and everyday responsibilities continues to place pressure on many Nigerians, depending on only one source of income can feel limiting.</p><p>People are therefore exploring practical skills, businesses and additional income opportunities. Network marketing is <strong>one</strong> of the business models they may consider.</p></div>
+    <div className="network-model-main"><div className="network-visual"><figure>
+      {/* Local optimised documentary-style asset. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/fhg-scene-1.jpg" width="1400" height="933" loading="lazy" decoding="async" alt="A Nigerian adult learning and working with a laptop in a realistic environment" />
+    </figure><div className="network-flow" role="tablist" aria-label="Products, customers, team and duplication">{networkParts.map(([label], index) => <button key={label} role="tab" aria-selected={active === index} aria-controls="network-part-detail" className={active === index ? 'active' : ''} onClick={() => setActive(index)}><span>{String(index + 1).padStart(2, '0')}</span>{label}</button>)}</div></div><div className="network-explanation"><p className="mini-heading">A business built through products, people and duplication</p><p>Network marketing is a business model in which independent distributors introduce genuine products to customers and may also build teams of other distributors.</p><p>Instead of spending heavily on a physical shop, large advertising campaigns or numerous employees, the business often grows through customer relationships, product recommendations, training and the duplication of a working system.</p><div id="network-part-detail" className="active-detail" role="tabpanel" aria-live="polite"><span>{networkParts[active][0]}</span><p>{networkParts[active][1]}</p></div></div></div>
+    <aside className="chapter-warning"><strong>Important clarification</strong><p>Network marketing is not automatic wealth. A legitimate business must involve real products, informed customers, responsible sales and transparent compensation. Results are not guaranteed.</p></aside>
+    <section className="accessibility-explainer"><div><p className="mini-heading">Why can the model be accessible?</p><p>Compared with some traditional businesses, network marketing may require less infrastructure. A distributor may not need to rent a shop, manufacture products, employ a large team or create an entire distribution system from the beginning.</p></div><div><p>However, there may still be registration, product, training, transportation, communication and marketing expenses. These costs must be explained before anyone joins.</p><strong>The value is not that it requires no work. It is that an individual can begin within an existing product and training system instead of building every part of a company alone.</strong></div></section>
+    <div className="verification-note" contentEditable suppressContentEditableWarning role="textbox" aria-label="Editable FHG verification note">ALLEN TO CONFIRM: current FHG products, costs, training and compensation information.</div>
+  </div>;
+}
+
+const quadrants = [
+  { key: 'E', title: 'Employee', body: 'An employee exchanges time, knowledge and responsibilities for wages or salary from an organisation.', idea: 'You work within someone else’s system.' },
+  { key: 'B', title: 'Business Owner', body: 'A business owner builds a system through which products, services, people and processes can continue operating beyond the owner’s individual labour.', idea: 'You build and improve a system that other people can follow.' },
+  { key: 'S', title: 'Self-Employed', body: 'A self-employed person earns directly from personal skills, services or professional work.', examples: 'Freelancer, designer, developer, consultant, photographer or independent service provider.', idea: 'You own the work, but income may still depend heavily on your personal time and effort.' },
+  { key: 'I', title: 'Investor', body: 'An investor commits capital to assets or businesses with the aim of earning a return while accepting the possibility of loss.', idea: 'Money is placed into assets or opportunities that may produce returns.' },
+] as const;
+
+function WealthQuadrantScene() {
+  const [active, setActive] = useState(0); const selected = quadrants[active];
+  return <div className="quadrant-layout">
+    <p className="chapter-lead">One useful way to understand income is to divide economic activity into four broad positions: Employee, Self-Employed, Business Owner and Investor.</p>
+    <div className="quadrant-main"><div className="quadrant-board" role="tablist" aria-label="Four broad income positions">{quadrants.map((item, index) => <button key={item.key} role="tab" aria-selected={active === index} aria-controls="quadrant-detail" className={active === index ? 'active' : ''} onClick={() => setActive(index)}><span>{item.key}</span><strong>{item.title}</strong></button>)}<i className="quadrant-axis-x" aria-hidden="true" /><i className="quadrant-axis-y" aria-hidden="true" /></div><article id="quadrant-detail" className="quadrant-detail" role="tabpanel" aria-live="polite"><span>{selected.key}: {selected.title}</span><p>{selected.body}</p>{'examples' in selected && <small>{selected.examples}</small>}<strong>{selected.idea}</strong></article></div>
+    <p className="quadrant-clarification">These categories are educational descriptions, not guarantees. A person may operate in more than one quadrant, and every path involves different skills, risks, responsibilities and financial circumstances.</p>
+    <section className="quadrant-fit"><p className="mini-heading">Where do freelancing and network marketing fit?</p><div><p><strong>Freelancing</strong> usually begins in the Self-Employed quadrant because a person earns by applying a skill directly for clients.</p><p>A well-developed network-marketing operation may have some characteristics of the Business Owner quadrant because it involves products, customers, training, leadership and a system that a team can learn.</p><p>Joining a network does not automatically make someone a successful business owner. The person must still develop customers, understand the products, learn the system and work consistently.</p></div></section>
+    <div className="skill-system-path" aria-label="A possible progression from skill to service to system"><span>Skill</span><i>→</i><span>Service</span><i>→</i><span>System</span></div>
+    <div className="quadrant-closing"><p>Skills can help you generate active income.</p><p>A responsible business system may help you build something less dependent on completing every task alone.</p><p>Investment can come later when someone has sufficient knowledge, appropriate capital and an understanding of risk.</p></div>
+  </div>;
+}
+
+const bridgeStages = [
+  ['Learn', 'Develop a practical and marketable digital skill.'], ['Practise', 'Build competence through projects, feedback and consistent improvement.'], ['Serve clients', 'Offer useful services to real customers at clearly agreed prices.'], ['Manage income', 'Separate personal needs, savings and affordable business expenses.'], ['Build', 'Use available resources responsibly to develop a genuine product and customer-based network-marketing business.'],
+] as const;
+const nigeriaReasons = [
+  ['Lower infrastructure barrier', 'A person may begin learning and offering digital services without first renting a physical shop or employing a large workforce.'], ['Local and international clients', 'Competent freelancers may serve clients within and outside Nigeria, subject to platform access, competition and payment availability.'], ['Multiple capabilities', 'The person develops skills, customer service, communication, sales and leadership—not recruitment alone.'], ['Existing business system', 'Network marketing may provide established products, training and a compensation structure, reducing the need to create every component from the beginning.'], ['Long-term development', 'The combination encourages skills, customers, leadership and responsible business habits beyond immediate income.'],
+] as const;
+
+function SkillsBridgeScene({ onNavigate }: { onNavigate: (index: number) => void }) {
+  const [active, setActive] = useState(0); const [reason, setReason] = useState(0); const [questionOpen, setQuestionOpen] = useState(false); const definitionIndex = scenes.findIndex(scene => scene.type === 'definition');
+  return <div className="skills-bridge-layout">
+    <div className="bridge-opening"><p>One challenge people face when considering a business opportunity is startup capital. Someone may understand the opportunity but still lack money for registration, products, transportation, internet access, marketing and other genuine expenses.</p><div className="approach-strip" aria-label="The FHG starting approach">{['Learn a skill','Use the skill','Earn from real client work','Plan business expenses','Build responsibly'].map((item, index) => <span key={item}><b>{String(index + 1).padStart(2, '0')}</b>{item}</span>)}</div></div>
+    <section className="bridge-explanation"><div><p className="mini-heading">A different starting approach</p><p>Instead of depending immediately on savings or money intended for essential needs, the FHG system introduces practical digital skills that may be offered to real clients.</p><p>These may include website design, graphic design, content creation, social media management, digital marketing and other approved skills.</p><p>When a member becomes competent and secures paying clients, the income <strong>may</strong> help meet personal needs, improve tools and gradually cover legitimate business expenses.</p></div><aside><strong>Freelancing income is not guaranteed.</strong><p>Success requires competence, a portfolio, prospecting, communication, delivery and consistent improvement. Never use rent, school fees, borrowed money or funds you cannot afford to lose.</p></aside></section>
+    <section className="bridge-journey"><p className="mini-heading">Active income can support long-term business building</p><div className="bridge-stage-tabs" role="tablist" aria-label="Five stages from skill to business">{bridgeStages.map(([label], index) => <button key={label} role="tab" aria-selected={active === index} aria-controls="bridge-stage-detail" onClick={() => setActive(index)} className={active === index ? 'active' : ''}><span>{index + 1}</span>{label}</button>)}</div><div id="bridge-stage-detail" className="bridge-stage-detail" role="tabpanel" aria-live="polite"><strong>Stage {active + 1}: {bridgeStages[active][0]}</strong><p>{bridgeStages[active][1]}</p></div><p>The aim is to use skill-based income as one possible financial foundation while learning how to build a responsible, customer-focused and lasting business—not simply to earn and spend everything on registration.</p></section>
+    <section className="nigeria-relevance"><p className="mini-heading">Why may this approach be relevant in Nigeria?</p><div className="reason-tabs" role="tablist" aria-label="Five reasons this approach may be relevant in Nigeria">{nigeriaReasons.map(([label], index) => <button key={label} role="tab" aria-selected={reason === index} aria-controls="reason-detail" onClick={() => setReason(index)} className={reason === index ? 'active' : ''}>{label}</button>)}</div><div id="reason-detail" className="reason-detail" role="tabpanel" aria-live="polite"><strong>{nigeriaReasons[reason][0]}</strong><p>{nigeriaReasons[reason][1]}</p></div></section>
+    <aside className="chapter-warning"><strong>Balanced view</strong><p>FHG does not remove the challenges of freelancing or network marketing. Members may still face competition, limited client access, product costs, rejection, inconsistent sales and changing economic conditions. Neither freelancing nor network-marketing income is guaranteed. Results depend on skills, effort, customers, sales, consistency, team activity and other circumstances.</p></aside>
+    <div className="bridge-close"><div><p className="mini-heading">The skill can help you start. The system can help you build.</p><p>FHG combines both paths because digital skills may help members create active income, while responsible network marketing provides an opportunity to develop a product-based business over time. The strength is learning, creating genuine value, managing money responsibly and building with a long-term mindset.</p><p><strong>For adults aged 18 and above.</strong> Understand the current costs, products and compensation plan before joining.</p></div><div className="bridge-actions"><button onClick={() => onNavigate(definitionIndex)}>Now show me what FHG is <span>→</span></button><button className="secondary" onClick={() => setQuestionOpen(value => !value)} aria-expanded={questionOpen} aria-controls="chapter-question">I have a question</button></div></div>
+    {questionOpen && <label id="chapter-question" className="chapter-question"><span>What would you like Allen to clarify?</span><textarea rows={2} maxLength={600} autoFocus placeholder="Type your question here. You can submit it in the application scene." /></label>}
+    <div className="verification-note" contentEditable suppressContentEditableWarning role="textbox" aria-label="Editable FHG system verification note">ALLEN TO CONFIRM: current FHG skills, client-support process, products, business costs, training and compensation structure.</div>
   </div>;
 }
 
@@ -151,9 +216,11 @@ function FitList({ title, items, tone }: { title: string; items: string[]; tone:
 }
 
 function SceneSeven({ onNavigate }: { onNavigate: (index: number) => void }) {
+  const transparencyIndex = scenes.findIndex(scene => scene.type === 'transparency');
+  const faqIndex = scenes.findIndex(scene => scene.type === 'faq');
   return <div className="fit-wrap">
     <div className="fit-columns"><FitList title="This may suit you if:" items={maySuit} tone="yes" /><FitList title="This may not suit you if:" items={mayNotSuit} tone="no" /></div>
-    <div className="fit-decision"><p>Which side describes your expectations more accurately?</p><div><button onClick={() => onNavigate(7)}>This may suit me <span>→</span></button><button onClick={() => onNavigate(9)}>I need more information <span>?</span></button></div></div>
+    <div className="fit-decision"><p>Which side describes your expectations more accurately?</p><div><button onClick={() => onNavigate(transparencyIndex)}>This may suit me <span>→</span></button><button onClick={() => onNavigate(faqIndex)}>I need more information <span>?</span></button></div></div>
   </div>;
 }
 
@@ -216,6 +283,9 @@ function SceneTen() {
 function SceneBody({ type, onNavigate }: { type: typeof scenes[number]['type']; onNavigate: (index: number) => void }) {
   if (type === 'hero') return <SceneOne onContinue={() => onNavigate(1)} />;
   if (type === 'statement') return <SceneTwo />;
+  if (type === 'network-model') return <NetworkModelScene />;
+  if (type === 'wealth-quadrant') return <WealthQuadrantScene />;
+  if (type === 'skills-bridge') return <SkillsBridgeScene onNavigate={onNavigate} />;
   if (type === 'definition') return <SceneThree />;
   if (type === 'split') return <SceneFour />;
   if (type === 'steps') return <SceneFive />;
@@ -295,7 +365,7 @@ function LeadForm() {
 }
 
 function Progress({ current, onSelect }: { current: number; onSelect: (index: number) => void }) {
-  return <aside className="progress" aria-label="Scene progress"><div className="progress-count"><strong>{String(current + 1).padStart(2, '0')}</strong><span>/</span><span>11</span></div><div className="progress-track">{scenes.map((scene, index) => <button key={scene.title} onClick={() => onSelect(index)} className={index === current ? 'active' : ''} aria-label={`Go to ${scene.title}`} aria-current={index === current ? 'step' : undefined}><span /></button>)}</div></aside>;
+  return <aside className="progress" aria-label="Scene progress"><div className="progress-count"><strong>{String(current + 1).padStart(2, '0')}</strong><span>/</span><span>{String(scenes.length).padStart(2, '0')}</span></div><div className="progress-track">{scenes.map((scene, index) => <button key={scene.title} onClick={() => onSelect(index)} className={index === current ? 'active' : ''} aria-label={`Go to ${scene.title}`} aria-current={index === current ? 'step' : undefined}><span /></button>)}</div></aside>;
 }
 function Navigation({ current, go }: { current: number; go: (index: number) => void }) {
   return <nav className="nav-controls" aria-label="Scene navigation"><button onClick={() => go(current - 1)} disabled={current === 0} aria-label="Previous scene"><span>↑</span><b>Back</b></button><button onClick={() => go(current + 1)} disabled={current === scenes.length - 1} aria-label="Next scene"><b>Next</b><span>↓</span></button></nav>;
@@ -324,5 +394,5 @@ export default function FhgExperience() {
   }, [canScrollInside, go]);
   function onTouchStart(event: React.TouchEvent) { touchStart.current = { y: event.touches[0].clientY, target: event.target }; }
   function onTouchEnd(event: React.TouchEvent) { if (!touchStart.current) return; const distance = touchStart.current.y - event.changedTouches[0].clientY; if (Math.abs(distance) > 48 && !canScrollInside(touchStart.current.target, distance)) go(currentRef.current + (distance > 0 ? 1 : -1)); touchStart.current = null; }
-  return <main className="experience" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}><p className="sr-only" role="status" aria-live="polite" aria-atomic="true">Scene {current + 1} of {scenes.length}: {scenes[current].title}</p><header className="topbar"><a className="brand" href="#scene-1" onClick={(e) => { e.preventDefault(); go(0); }} aria-label="Allen Samuel home"><span>AS</span><div><b>Allen Samuel</b><small>FHG Explainer</small></div></a><button className="skip" onClick={() => go(10)}>Skip to Application <span>↘</span></button></header><div className="scene-stage" style={{ transform: `translate3d(0, -${current * 100}%, 0)` }}>{scenes.map((scene, index) => <div id={`scene-${index + 1}`} className="scene-slot" key={scene.title} aria-hidden={index !== current} inert={index !== current}><SceneFrame index={index} eyebrow={scene.eyebrow} title={scene.title}><SceneBody type={scene.type} onNavigate={go} /></SceneFrame></div>)}</div><Progress current={current} onSelect={go} /><Navigation current={current} go={go} /><p className="scroll-hint" aria-hidden="true"><span /> Scroll to explore</p><div className="ambient ambient-one" /><div className="ambient ambient-two" /></main>;
+  return <main className="experience" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}><p className="sr-only" role="status" aria-live="polite" aria-atomic="true">Scene {current + 1} of {scenes.length}: {scenes[current].title}</p><header className="topbar"><a className="brand" href="#scene-1" onClick={(e) => { e.preventDefault(); go(0); }} aria-label="Allen Samuel home"><span>AS</span><div><b>Allen Samuel</b><small>FHG Explainer</small></div></a><button className="skip" onClick={() => go(scenes.length - 1)}>Skip to Application <span>↘</span></button></header><div className="scene-stage" style={{ transform: `translate3d(0, -${current * 100}%, 0)` }}>{scenes.map((scene, index) => <div id={`scene-${index + 1}`} className="scene-slot" key={scene.title} aria-hidden={index !== current} inert={index !== current}><SceneFrame index={index} eyebrow={scene.eyebrow} title={scene.title}><SceneBody type={scene.type} onNavigate={go} /></SceneFrame></div>)}</div><Progress current={current} onSelect={go} /><Navigation current={current} go={go} /><p className="scroll-hint" aria-hidden="true"><span /> Scroll to explore</p><div className="ambient ambient-one" /><div className="ambient ambient-two" /></main>;
 }
