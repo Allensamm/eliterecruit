@@ -371,7 +371,75 @@ function Navigation({ current, go }: { current: number; go: (index: number) => v
   return <nav className="nav-controls" aria-label="Scene navigation"><button onClick={() => go(current - 1)} disabled={current === 0} aria-label="Previous scene"><span>↑</span><b>Back</b></button><button onClick={() => go(current + 1)} disabled={current === scenes.length - 1} aria-label="Next scene"><b>Next</b><span>↓</span></button></nav>;
 }
 
+function EntryGate({ onExplain }: { onExplain: () => void }) {
+  const [mode, setMode] = useState<'choice' | 'register'>('choice');
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const startedAt = useRef(0);
+  const submitted = useRef(false);
+  const whatsappNumber = process.env.NEXT_PUBLIC_ALLEN_WHATSAPP_NUMBER?.replace(/\D/g, '') || '';
+  useEffect(() => { startedAt.current = Date.now(); }, []);
+
+  function beginExplainer() {
+    onExplain();
+  }
+
+  function continueToWhatsApp(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (submitted.current) return;
+    const data = new FormData(event.currentTarget);
+    if (String(data.get('website') || '').trim()) return;
+    const nextErrors: Record<string, string> = {};
+    const firstName = String(data.get('firstName') || '').trim();
+    const whatsapp = String(data.get('whatsapp') || '').trim();
+    const status = String(data.get('status') || '').trim();
+    const question = String(data.get('question') || '').trim().slice(0, 400);
+    if (!firstName) nextErrors.firstName = 'Please enter your first name.';
+    if (!/^\+?[0-9]{10,15}$/.test(whatsapp.replace(/[\s()-]/g, ''))) nextErrors.whatsapp = 'Enter a valid WhatsApp number, including the country code.';
+    if (!status) nextErrors.status = 'Please select your current status.';
+    if (!data.get('ageConfirmed')) nextErrors.ageConfirmed = 'You must confirm that you are at least 18.';
+    if (!data.get('consent')) nextErrors.consent = 'Please agree before continuing to WhatsApp.';
+    if (Date.now() - startedAt.current < 1500) nextErrors.form = 'Please take a moment to review your details.';
+    if (!whatsappNumber) nextErrors.form = 'Allen’s WhatsApp number has not been configured yet.';
+    if (Object.keys(nextErrors).length) { setErrors(nextErrors); return; }
+    setErrors({}); submitted.current = true;
+    const message = [`Hello Allen, my name is ${firstName}.`, 'I came from the FHG explainer advert and I already understand network marketing.', 'I would like to discuss the registration process.', `My current status is ${status}.`, `My WhatsApp number is ${whatsapp}.`, question ? `My question is: ${question}` : '', 'I understand that this is not a job offer or guaranteed-income programme. Please explain the current costs, products, responsibilities and compensation plan before I decide.'].filter(Boolean).join('\n\n');
+    window.location.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+  }
+
+  return <main className="entry-gate">
+    <header className="entry-brand"><span>AS</span><div><b>Allen Samuel</b><small>FHG Explainer</small></div></header>
+    <div className="entry-orbit entry-orbit-one" aria-hidden="true" /><div className="entry-orbit entry-orbit-two" aria-hidden="true" />
+    {mode === 'choice' ? <section className="entry-choice" aria-labelledby="entry-title">
+      <p className="eyebrow"><span />Before we continue</p>
+      <h1 id="entry-title">What would you like to do next?</h1>
+      <p className="entry-lead">Choose the path that best matches what you understood from the advert. You can review the full explanation before making any decision.</p>
+      <div className="entry-options">
+        <button className="entry-option entry-ready" onClick={() => { startedAt.current = Date.now(); setMode('register'); }}><span>01</span><div><strong>I understand network marketing</strong><p>I have seen the advert, understand the basic model and would like to discuss registration with Allen.</p></div><i>→</i></button>
+        <button className="entry-option entry-learn" onClick={beginExplainer}><span>02</span><div><strong>I need more explanation</strong><p>Take me through the complete FHG explainer, including the skills, business model, costs and responsibilities.</p></div><i>↓</i></button>
+      </div>
+      <p className="entry-disclaimer">For adults aged 18 and above. FHG is not an employer or guaranteed-income programme. Choosing the registration path does not require payment or complete registration.</p>
+    </section> : <section className="entry-registration" aria-labelledby="register-title">
+      <button className="entry-back" type="button" onClick={() => { setErrors({}); setMode('choice'); }}>← Back to choices</button>
+      <div className="entry-form-intro"><p className="eyebrow"><span />Registration interest</p><h1 id="register-title">Connect with Allen on WhatsApp</h1><p>Share a few details and we will prepare a WhatsApp message for Allen. You will review it and tap <strong>Send</strong> inside WhatsApp. This does not register you or require payment.</p><aside><strong>Before deciding</strong><p>Ask Allen to explain the current costs, products, responsibilities and compensation plan.</p></aside></div>
+      <form className="entry-form" onSubmit={continueToWhatsApp} noValidate>
+        <label><span>First name *</span><input name="firstName" autoComplete="given-name" aria-invalid={!!errors.firstName} aria-describedby={errors.firstName ? 'entry-firstName-error' : undefined} />{errors.firstName && <small id="entry-firstName-error">{errors.firstName}</small>}</label>
+        <label><span>Your WhatsApp number *</span><input name="whatsapp" type="tel" autoComplete="tel" placeholder="+234…" aria-invalid={!!errors.whatsapp} aria-describedby={errors.whatsapp ? 'entry-whatsapp-error' : undefined} />{errors.whatsapp && <small id="entry-whatsapp-error">{errors.whatsapp}</small>}</label>
+        <label className="entry-wide"><span>Current status *</span><select name="status" defaultValue="" aria-invalid={!!errors.status} aria-describedby={errors.status ? 'entry-status-error' : undefined}><option value="" disabled>Select one</option>{['Student','NYSC member','Graduate','Employee','Freelancer','Business owner','Other'].map(item => <option key={item}>{item}</option>)}</select>{errors.status && <small id="entry-status-error">{errors.status}</small>}</label>
+        <label className="entry-wide"><span>Optional question</span><textarea name="question" rows={3} maxLength={400} placeholder="What would you like Allen to clarify before you decide?" /></label>
+        <label className="entry-check entry-wide"><input type="checkbox" name="ageConfirmed" value="yes" /><span>I confirm that I am 18 years old or older.</span>{errors.ageConfirmed && <small>{errors.ageConfirmed}</small>}</label>
+        <label className="entry-check entry-wide"><input type="checkbox" name="consent" value="yes" /><span>I agree to contact Allen about this enquiry. I understand this is not a job offer or guaranteed-income programme.</span>{errors.consent && <small>{errors.consent}</small>}</label>
+        <input type="text" name="website" tabIndex={-1} autoComplete="off" hidden />
+        {errors.form && <p className="entry-form-error entry-wide" role="alert">{errors.form}</p>}
+        <button className="entry-submit entry-wide" type="submit">Continue to WhatsApp <span>↗</span></button>
+        <button className="entry-explain-link entry-wide" type="button" onClick={beginExplainer}>I would rather review the full explanation</button>
+        <p className="entry-privacy entry-wide">Your details are placed only in the WhatsApp message you review. You will not be added to a group automatically. Do not include bank details, identity numbers or card information.</p>
+      </form>
+    </section>}
+  </main>;
+}
+
 export default function FhgExperience() {
+  const [entry, setEntry] = useState<'gate' | 'explainer'>('gate');
   const [current, setCurrent] = useState(0);
   const currentRef = useRef(0);
   const locked = useRef(false);
@@ -394,5 +462,6 @@ export default function FhgExperience() {
   }, [canScrollInside, go]);
   function onTouchStart(event: React.TouchEvent) { touchStart.current = { y: event.touches[0].clientY, target: event.target }; }
   function onTouchEnd(event: React.TouchEvent) { if (!touchStart.current) return; const distance = touchStart.current.y - event.changedTouches[0].clientY; if (Math.abs(distance) > 48 && !canScrollInside(touchStart.current.target, distance)) go(currentRef.current + (distance > 0 ? 1 : -1)); touchStart.current = null; }
+  if (entry === 'gate') return <EntryGate onExplain={() => setEntry('explainer')} />;
   return <main className="experience" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}><p className="sr-only" role="status" aria-live="polite" aria-atomic="true">Scene {current + 1} of {scenes.length}: {scenes[current].title}</p><header className="topbar"><a className="brand" href="#scene-1" onClick={(e) => { e.preventDefault(); go(0); }} aria-label="Allen Samuel home"><span>AS</span><div><b>Allen Samuel</b><small>FHG Explainer</small></div></a><button className="skip" onClick={() => go(scenes.length - 1)}>Skip to Application <span>↘</span></button></header><div className="scene-stage" style={{ transform: `translate3d(0, -${current * 100}%, 0)` }}>{scenes.map((scene, index) => <div id={`scene-${index + 1}`} className="scene-slot" key={scene.title} aria-hidden={index !== current} inert={index !== current}><SceneFrame index={index} eyebrow={scene.eyebrow} title={scene.title}><SceneBody type={scene.type} onNavigate={go} /></SceneFrame></div>)}</div><Progress current={current} onSelect={go} /><Navigation current={current} go={go} /><p className="scroll-hint" aria-hidden="true"><span /> Scroll to explore</p><div className="ambient ambient-one" /><div className="ambient ambient-two" /></main>;
 }
