@@ -93,3 +93,56 @@
 /* Accessible text-bearing green surfaces; brand green remains in accents. */
 .primary-cta,.system-connector>div,.journey li:nth-child(even) .journey-point,.fit-column header span,.lead-form button,.lead-actions>button{background:var(--green-deep)}
 .definition-layout-single{grid-template-columns:minmax(0,760px)}
+
+/* Responsive presentation polish: tablet and mobile */
+@media (min-width:701px) and (max-width:980px){
+  .scene{padding-left:56px;padding-right:104px}
+  .scene-grid{grid-template-columns:44px minmax(0,1fr);gap:28px}
+  .scene-index{padding-top:8px}
+  .scene-main{min-width:0}
+  .progress{right:24px}
+  .nav-controls{right:104px}
+  .chapter-opening,.bridge-opening{gap:18px}
+  .approach-strip{grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible}
+  .approach-strip span:nth-child(n+4){grid-column:span 1}
+  .reason-tabs{grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}
+  .reason-tabs button{min-height:44px;border:1px solid rgba(8,26,47,.12);border-left:3px solid rgba(8,26,47,.15);border-radius:8px;padding:8px 10px}
+  .bridge-stage-tabs button,.network-flow button,.quadrant-board button{min-height:48px}
+}
+@media (max-width:700px){
+  .topbar{padding:0 20px}
+  .scene{padding:76px 20px 82px}
+  .scene-content{scroll-padding-bottom:88px}
+  .progress{top:auto;right:auto;left:20px;bottom:22px;transform:none;display:flex;align-items:center;gap:8px;padding:7px 10px;border:1px solid rgba(8,26,47,.1);border-radius:999px;background:rgba(248,245,237,.9);backdrop-filter:blur(10px)}
+  .progress-count{writing-mode:horizontal-tb;gap:5px}
+  .progress-count strong{font-size:12px}
+  .progress-track{display:none}
+  .nav-controls{right:18px;bottom:16px}
+  .nav-controls button{width:48px;min-width:48px;height:48px}
+  .scene-slot:nth-child(3) h1,.scene-slot:nth-child(4) h1,.scene-slot:nth-child(5) h1{font-size:clamp(32px,9.5vw,44px);line-height:1}
+  .chapter-opening,.network-model-main,.quadrant-main,.bridge-opening{margin-top:18px}
+  .network-flow button,.quadrant-board button,.bridge-stage-tabs button,.reason-tabs button,.bridge-actions button{min-height:48px}
+  .approach-strip{grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible;gap:8px}
+  .approach-strip span{min-height:82px;padding:12px 10px;font-size:9px}
+  .approach-strip span:last-child{grid-column:1/-1;min-height:60px}
+  .bridge-stage-tabs{grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible;gap:7px}
+  .bridge-stage-tabs button:last-child{grid-column:1/-1}
+  .reason-tabs{grid-template-columns:1fr;overflow:visible;gap:6px}
+  .reason-tabs button{border:1px solid rgba(8,26,47,.12);border-left:3px solid rgba(8,26,47,.15);border-radius:9px;padding:10px 12px;font-size:9px}
+  .reason-tabs button.active{border-left-color:var(--green)}
+  .quadrant-fit>div{gap:12px}
+  .quadrant-fit>div p,.quadrant-closing p,.bridge-explanation p,.bridge-journey>p:last-child,.reason-detail p,.bridge-close p{font-size:11px;line-height:1.55}
+  .bridge-stage-detail strong,.reason-detail strong{font-size:10px}
+  .verification-note{font-size:8px;line-height:1.5;padding:10px 11px}
+  .lead-form.complete input,.lead-form.complete select{height:46px;font-size:12px}
+  .lead-form.complete textarea{font-size:12px}
+  .lead-form.complete label>span,.lead-form.complete .check-field>span{font-size:10px}
+  .lead-actions>button,.lead-actions>a{min-height:48px;font-size:9px}
+}
+@media (max-width:380px){
+  .skip{font-size:10px}
+  .scene{padding-left:16px;padding-right:16px}
+  .scene-slot:nth-child(3) h1,.scene-slot:nth-child(4) h1,.scene-slot:nth-child(5) h1{font-size:30px}
+  .network-flow{grid-template-columns:1fr}
+  .quadrant-board button strong{font-size:9px}
+}
