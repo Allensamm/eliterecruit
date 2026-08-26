@@ -78,3 +78,4 @@
 
 /* Accessible text-bearing green surfaces; brand green remains in accents. */
 .primary-cta,.system-connector>div,.journey li:nth-child(even) .journey-point,.fit-column header span,.lead-form button,.lead-actions>button{background:var(--green-deep)}
+.definition-layout-single{grid-template-columns:minmax(0,760px)}

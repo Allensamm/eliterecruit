@@ -54,16 +54,11 @@ function SceneTwo() {
 }
 
 function SceneThree() {
-  return <div className="definition-layout">
+  return <div className="definition-layout definition-layout-single">
     <div className="definition-copy">
       <p><strong>FHG</strong> stands for <strong>Faith Heroic Generation.</strong> It is a Nigerian business and personal-development community that combines digital-skills learning with product-based network marketing.</p>
       <p>Members are introduced to practical online skills, communication, leadership, product education and business-building principles.</p>
       <aside className="definition-clarification"><span>Important clarification</span><p>FHG is not an employer and does not pay salaries. It provides a learning and business-development system. Individual results depend on effort, skills, consistency, customer demand and other circumstances.</p></aside>
-    </div>
-    <div className="verified-editor-wrap">
-      <div className="editor-label"><span>Verified information only</span><b>Editable area</b></div>
-      <div className="verified-editor" contentEditable suppressContentEditableWarning role="textbox" aria-multiline="true" aria-label="Verified FHG history, leadership and official information">INSERT VERIFIED FHG HISTORY, LEADERSHIP AND OFFICIAL INFORMATION HERE.</div>
-      <p>Dates, leaders, products, statistics and achievements should only be added after verification.</p>
     </div>
   </div>;
 }
