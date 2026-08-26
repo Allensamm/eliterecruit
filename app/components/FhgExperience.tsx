@@ -8,8 +8,8 @@ const scenes = [
   { title: 'Having ambition is good. Having a system is better.', eyebrow: 'The Reality', type: 'statement' },
   { title: 'So, what exactly is FHG?', eyebrow: 'What Is FHG?', type: 'definition' },
   { title: 'One community. Two development paths.', eyebrow: 'The Two-Part System', type: 'split' },
-  { title: 'How It Works', eyebrow: 'A simple path', type: 'steps' },
-  { title: 'What Members Develop', eyebrow: 'Practical growth', type: 'cards' },
+  { title: 'What happens when someone decides to learn more?', eyebrow: 'How the Journey Works', type: 'steps' },
+  { title: 'More than joining. It is about becoming capable.', eyebrow: 'What Members May Develop', type: 'cards' },
   { title: 'Who It May Suit', eyebrow: 'Consider the fit', type: 'profile' },
   { title: 'Transparency', eyebrow: 'Clarity matters', type: 'transparency' },
   { title: 'Real Experience and Proof', eyebrow: 'Evidence over promises', type: 'proof' },
@@ -92,13 +92,54 @@ function SceneFour() {
   </div>;
 }
 
+const journeySteps = [
+  ['Understand', 'Learn what FHG is, what it offers and what it requires.'],
+  ['Ask questions', 'Discuss the products, training, responsibilities, costs and compensation structure.'],
+  ['Decide', 'Review the information without pressure before making a commitment.'],
+  ['Learn', 'Attend approved training and develop practical communication, digital and business skills.'],
+  ['Apply', 'Use the training consistently, serve real customers and build responsibly.'],
+] as const;
+
+function SceneFive() {
+  return <div className="journey-wrap">
+    <ol className="journey" aria-label="Five steps in the FHG learning journey">
+      {journeySteps.map(([title, description], index) => <li key={title}>
+        <div className="journey-point"><span>{String(index + 1).padStart(2, '0')}</span></div>
+        <div className="journey-text"><h2>{title}</h2><p>{description}</p></div>
+      </li>)}
+    </ol>
+    <p className="journey-close"><span>Full clarity</span>No step should be hidden. You should understand the complete process before registering or paying.</p>
+  </div>;
+}
+
+const growthAreas = [
+  ['Digital ability', 'Develop practical online skills.'],
+  ['Communication', 'Learn how to explain ideas and speak with people confidently.'],
+  ['Leadership', 'Learn how to support and guide others responsibly.'],
+  ['Product knowledge', 'Understand what you recommend before speaking to customers.'],
+  ['Personal development', 'Build discipline, consistency and confidence.'],
+  ['Business thinking', 'Understand customers, sales, follow-up and teamwork.'],
+] as const;
+
+function SceneSix() {
+  return <div className="growth-wrap">
+    <div className="growth-orbit" aria-label="Six connected member development areas">
+      <div className="growth-centre" aria-hidden="true"><span>FHG</span><strong>Capability</strong><i /></div>
+      {growthAreas.map(([title, description], index) => <article className={`growth-node growth-node-${index + 1}`} key={title}>
+        <span>{String(index + 1).padStart(2, '0')}</span><div><h2>{title}</h2><p>{description}</p></div>
+      </article>)}
+    </div>
+    <p className="growth-note"><span>i</span>Training content and outcomes vary. Participation does not guarantee income or employment.</p>
+  </div>;
+}
+
 function SceneBody({ type, onNavigate }: { type: typeof scenes[number]['type']; onNavigate: (index: number) => void }) {
   if (type === 'hero') return <SceneOne onContinue={() => onNavigate(1)} />;
   if (type === 'statement') return <SceneTwo />;
   if (type === 'definition') return <SceneThree />;
   if (type === 'split') return <SceneFour />;
-  if (type === 'steps') return <div className="steps">{['Discover', 'Understand', 'Decide'].map((x, i) => <article key={x}><span>{i + 1}</span><div><h2>{x}</h2><Placeholder lines={1} /></div></article>)}</div>;
-  if (type === 'cards') return <div className="card-grid">{['Capability', 'Confidence', 'Community'].map((x, i) => <article key={x}><span className="mini-icon">{String(i + 1).padStart(2, '0')}</span><h2>{x}</h2><Placeholder lines={2} /></article>)}</div>;
+  if (type === 'steps') return <SceneFive />;
+  if (type === 'cards') return <SceneSix />;
   if (type === 'profile') return <div className="profile-layout"><div className="profile-ring">?</div><div><p className="intro small">A thoughtful fit-check will live here.</p><Placeholder lines={3} /></div></div>;
   if (type === 'transparency') return <div className="transparency-box"><span>Important context</span><p>Clear expectations, responsible language and balanced information will appear here.</p></div>;
   if (type === 'proof') return <div className="proof-layout"><div className="quote-mark">“</div><div><p className="intro small">A grounded space for genuine experience and verifiable proof.</p><Placeholder lines={2} /></div></div>;
