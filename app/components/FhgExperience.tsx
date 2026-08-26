@@ -419,7 +419,8 @@ function EntryGate({ onExplain }: { onExplain: () => void }) {
 }
 
 export default function FhgExperience() {
-  const [entry, setEntry] = useState<'gate' | 'explainer'>('gate');
+  const gatewayReady = Boolean(process.env.NEXT_PUBLIC_ALLEN_WHATSAPP_NUMBER?.replace(/\D/g, ''));
+  const [entry, setEntry] = useState<'gate' | 'explainer'>(gatewayReady ? 'gate' : 'explainer');
   const [current, setCurrent] = useState(0);
   const currentRef = useRef(0);
   const locked = useRef(false);
