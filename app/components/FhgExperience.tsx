@@ -12,8 +12,8 @@ const scenes = [
   { title: 'More than joining. It is about becoming capable.', eyebrow: 'What Members May Develop', type: 'cards' },
   { title: 'Is this the right direction for you?', eyebrow: 'Who This May Suit', type: 'profile' },
   { title: 'What we will never promise you', eyebrow: 'Transparency', type: 'transparency' },
-  { title: 'Real Experience and Proof', eyebrow: 'Evidence over promises', type: 'proof' },
-  { title: 'Frequently Asked Questions', eyebrow: 'Useful answers', type: 'faq' },
+  { title: 'Do not take the message on faith. Review the evidence.', eyebrow: 'Real Experience and Proof', type: 'proof' },
+  { title: 'Frequently Asked Questions', eyebrow: 'Clear answers before you decide', type: 'faq' },
   { title: 'Lead Capture', eyebrow: 'Your next step', type: 'form' },
 ] as const;
 
@@ -183,6 +183,42 @@ function SceneEight() {
   </div>;
 }
 
+const evidenceAreas = [
+  'Allen’s genuine personal story', 'Approved training photographs', 'Real member experiences', 'Verifiable digital projects',
+  'Product education', 'Community activities', 'Genuine customer stories', 'Approved FHG events',
+];
+
+function SceneNine() {
+  return <div className="evidence-layout">
+    <div className="evidence-intro"><span>Verification first</span><p>Every testimonial must use a real person or approved identifier. Never add fake names, earnings, photographs or success stories.</p></div>
+    <div className="evidence-grid" aria-label="Editable areas for verified experience and proof">
+      {evidenceAreas.map((area, index) => <div className="evidence-editor" key={area} contentEditable suppressContentEditableWarning role="textbox" aria-multiline="true" aria-label={`Editable area: ${area}`}><span contentEditable={false} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><strong contentEditable={false}>{area}</strong><p>ADD VERIFIED MATERIAL HERE.</p></div>)}
+    </div>
+    <div className="evidence-placeholder" contentEditable suppressContentEditableWarning role="textbox" aria-multiline="true" aria-label="Verified testimonials, photographs and media"><span contentEditable={false}>Editable verified-media area</span><strong>ALLEN WILL ADD VERIFIED TESTIMONIALS, PHOTOGRAPHS AND MEDIA HERE.</strong></div>
+  </div>;
+}
+
+const faqs = [
+  ['Is FHG a job?', 'No. FHG is not a salary-paying employer. It is presented as a skills, personal-development and network-marketing community.'],
+  ['Will I start earning immediately?', 'There is no guaranteed earning date or amount. Results depend on what you learn, how you apply it, customer demand, sales activity, team performance and other circumstances.'],
+  ['Do I have to recruit people?', 'Team building may be part of network marketing, but the business should also involve genuine products, customer service and responsible sales. Allen will explain the current structure before you decide.'],
+  ['Will I receive digital-skills training?', 'FHG is described as combining digital skills with network marketing. The exact skills, schedule and training access should be confirmed with Allen.'],
+  ['How much does it cost?', 'Current costs will be explained clearly before registration. You should not make a payment until you understand what the payment covers.'],
+  ['Can I participate while studying or working?', 'Many people explore it alongside school, employment or another business, but you should consider whether you have enough time to participate consistently.'],
+  ['Is income guaranteed?', 'No. Income is not guaranteed.'],
+  ['Can I speak directly with Allen?', 'Yes. You can request a WhatsApp conversation before making any decision.'],
+] as const;
+
+function SceneTen() {
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+  return <div className="faq-accordion">
+    {faqs.map(([question, answer], index) => { const open = openIndex === index; const panelId = `faq-panel-${index}`; return <div className={open ? 'open' : ''} key={question}>
+      <h2><button type="button" aria-expanded={open} aria-controls={panelId} onClick={() => setOpenIndex(open ? null : index)}><span>{String(index + 1).padStart(2, '0')}</span><strong>{question}</strong><i aria-hidden="true">{open ? '−' : '+'}</i></button></h2>
+      <div id={panelId} role="region" aria-label={question} hidden={!open}><p>{answer}</p></div>
+    </div>; })}
+  </div>;
+}
+
 function SceneBody({ type, onNavigate }: { type: typeof scenes[number]['type']; onNavigate: (index: number) => void }) {
   if (type === 'hero') return <SceneOne onContinue={() => onNavigate(1)} />;
   if (type === 'statement') return <SceneTwo />;
@@ -192,8 +228,8 @@ function SceneBody({ type, onNavigate }: { type: typeof scenes[number]['type']; 
   if (type === 'cards') return <SceneSix />;
   if (type === 'profile') return <SceneSeven onNavigate={onNavigate} />;
   if (type === 'transparency') return <SceneEight />;
-  if (type === 'proof') return <div className="proof-layout"><div className="quote-mark">“</div><div><p className="intro small">A grounded space for genuine experience and verifiable proof.</p><Placeholder lines={2} /></div></div>;
-  if (type === 'faq') return <div className="faq-list">{['Question placeholder one', 'Question placeholder two', 'Question placeholder three'].map((x, i) => <div key={x}><span>{String(i + 1).padStart(2, '0')}</span><h2>{x}</h2><b>+</b></div>)}</div>;
+  if (type === 'proof') return <SceneNine />;
+  if (type === 'faq') return <SceneTen />;
   if (type === 'form') return <LeadForm />;
   return <><p className="intro small">This scene is ready for the final educational content.</p><Placeholder lines={3} /></>;
 }
