@@ -10,8 +10,8 @@ const scenes = [
   { title: 'One community. Two development paths.', eyebrow: 'The Two-Part System', type: 'split' },
   { title: 'What happens when someone decides to learn more?', eyebrow: 'How the Journey Works', type: 'steps' },
   { title: 'More than joining. It is about becoming capable.', eyebrow: 'What Members May Develop', type: 'cards' },
-  { title: 'Who It May Suit', eyebrow: 'Consider the fit', type: 'profile' },
-  { title: 'Transparency', eyebrow: 'Clarity matters', type: 'transparency' },
+  { title: 'Is this the right direction for you?', eyebrow: 'Who This May Suit', type: 'profile' },
+  { title: 'What we will never promise you', eyebrow: 'Transparency', type: 'transparency' },
   { title: 'Real Experience and Proof', eyebrow: 'Evidence over promises', type: 'proof' },
   { title: 'Frequently Asked Questions', eyebrow: 'Useful answers', type: 'faq' },
   { title: 'Lead Capture', eyebrow: 'Your next step', type: 'form' },
@@ -133,6 +133,56 @@ function SceneSix() {
   </div>;
 }
 
+const maySuit = [
+  'You are at least 18 years old.',
+  'You are willing to learn.',
+  'You can attend training.',
+  'You understand that results require effort.',
+  'You are comfortable communicating with people.',
+  'You want skills, mentorship and business exposure.',
+  'You are prepared to ask questions before deciding.',
+];
+const mayNotSuit = [
+  'You want guaranteed or instant income.',
+  'You expect to earn without learning or working.',
+  'You want a salaried job.',
+  'You intend to pressure friends or family.',
+  'You are unwilling to understand the products.',
+  'You are borrowing money you cannot afford to lose.',
+  'You do not want to follow ethical marketing practices.',
+];
+
+function FitList({ title, items, tone }: { title: string; items: string[]; tone: 'yes' | 'no' }) {
+  return <article className={`fit-column fit-${tone}`}><header><span>{tone === 'yes' ? '✓' : '—'}</span><h2>{title}</h2></header><ul>{items.map(item => <li key={item}>{item}</li>)}</ul></article>;
+}
+
+function SceneSeven({ onNavigate }: { onNavigate: (index: number) => void }) {
+  return <div className="fit-wrap">
+    <div className="fit-columns"><FitList title="This may suit you if:" items={maySuit} tone="yes" /><FitList title="This may not suit you if:" items={mayNotSuit} tone="no" /></div>
+    <div className="fit-decision"><p>Which side describes your expectations more accurately?</p><div><button onClick={() => onNavigate(7)}>This may suit me <span>→</span></button><button onClick={() => onNavigate(9)}>I need more information <span>?</span></button></div></div>
+  </div>;
+}
+
+const neverPromises = [
+  'No guaranteed earnings', 'No overnight success', 'No automatic employment', 'No income without effort',
+  'No hidden registration information', 'No pressure to decide immediately', 'No fake testimonials', 'No misleading product claims',
+];
+
+function SceneEight() {
+  const [reveal, setReveal] = useState(0);
+  return <div className="promise-layout">
+    <div className="promise-reveal" aria-label="Transparency statements">
+      <div className="promise-counter"><span>{String(reveal + 1).padStart(2, '0')}</span><i /><span>08</span></div>
+      <div className="promise-statement" role="status" aria-live="polite"><span aria-hidden="true">×</span><strong>{neverPromises[reveal]}</strong></div>
+      <div className="promise-controls"><button onClick={() => setReveal(value => Math.max(0, value - 1))} disabled={reveal === 0} aria-label="Previous transparency statement">←</button><div>{neverPromises.map((item, index) => <button key={item} onClick={() => setReveal(index)} className={index === reveal ? 'active' : ''} aria-label={`Reveal: ${item}`} aria-current={index === reveal ? 'step' : undefined} />)}</div><button onClick={() => setReveal(value => Math.min(neverPromises.length - 1, value + 1))} disabled={reveal === neverPromises.length - 1} aria-label="Next transparency statement">→</button></div>
+    </div>
+    <div className="promise-details">
+      <p>Before you register, Allen will explain the current costs, available products, training structure, responsibilities and compensation information.</p>
+      <div className="cost-editor-wrap"><div><span>Verified information only</span><b>Editable area</b></div><div className="cost-editor" contentEditable suppressContentEditableWarning role="textbox" aria-multiline="true" aria-label="Current and verified cost information">INSERT CURRENT AND VERIFIED COST INFORMATION HERE.</div><small>Product, health, cost, compensation and income details must be verified before publication.</small></div>
+    </div>
+  </div>;
+}
+
 function SceneBody({ type, onNavigate }: { type: typeof scenes[number]['type']; onNavigate: (index: number) => void }) {
   if (type === 'hero') return <SceneOne onContinue={() => onNavigate(1)} />;
   if (type === 'statement') return <SceneTwo />;
@@ -140,8 +190,8 @@ function SceneBody({ type, onNavigate }: { type: typeof scenes[number]['type']; 
   if (type === 'split') return <SceneFour />;
   if (type === 'steps') return <SceneFive />;
   if (type === 'cards') return <SceneSix />;
-  if (type === 'profile') return <div className="profile-layout"><div className="profile-ring">?</div><div><p className="intro small">A thoughtful fit-check will live here.</p><Placeholder lines={3} /></div></div>;
-  if (type === 'transparency') return <div className="transparency-box"><span>Important context</span><p>Clear expectations, responsible language and balanced information will appear here.</p></div>;
+  if (type === 'profile') return <SceneSeven onNavigate={onNavigate} />;
+  if (type === 'transparency') return <SceneEight />;
   if (type === 'proof') return <div className="proof-layout"><div className="quote-mark">“</div><div><p className="intro small">A grounded space for genuine experience and verifiable proof.</p><Placeholder lines={2} /></div></div>;
   if (type === 'faq') return <div className="faq-list">{['Question placeholder one', 'Question placeholder two', 'Question placeholder three'].map((x, i) => <div key={x}><span>{String(i + 1).padStart(2, '0')}</span><h2>{x}</h2><b>+</b></div>)}</div>;
   if (type === 'form') return <LeadForm />;
