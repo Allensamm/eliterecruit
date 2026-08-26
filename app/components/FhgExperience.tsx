@@ -37,7 +37,6 @@ function SceneOne({ onContinue }: { onContinue: () => void }) {
       {/* Local temporary asset; plain img avoids the Vinext image shim in this client-only scene. */}
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src="/fhg-scene-1.jpg" width="1400" height="933" fetchPriority="high" decoding="async" alt="A young Nigerian professional working from a laptop in a relaxed Lagos workspace" />
-      <figcaption><span>Temporary image</span><a href="https://unsplash.com/photos/a-man-sitting-on-a-couch-using-a-laptop-computer-LE2fKER-4sA" target="_blank" rel="noreferrer">Lagos, Nigeria · Ninthgrid / Unsplash</a></figcaption>
     </figure>
     <p className="scene-swipe-cue"><span>↕</span> Swipe or scroll to continue</p>
   </div>;
