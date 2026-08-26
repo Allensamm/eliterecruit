@@ -15,7 +15,6 @@ const scenes = [
   { title: 'More than joining. It is about becoming capable.', eyebrow: 'What Members May Develop', type: 'cards' },
   { title: 'Is this the right direction for you?', eyebrow: 'Who This May Suit', type: 'profile' },
   { title: 'What we will never promise you', eyebrow: 'Transparency', type: 'transparency' },
-  { title: 'Do not take the message on faith. Review the evidence.', eyebrow: 'Real Experience and Proof', type: 'proof' },
   { title: 'Frequently Asked Questions', eyebrow: 'Clear answers before you decide', type: 'faq' },
   { title: 'Ready to understand the next step?', eyebrow: 'Lead Capture', type: 'form' },
 ] as const;
@@ -73,8 +72,7 @@ function NetworkModelScene() {
       <img src="/fhg-scene-1.jpg" width="1400" height="933" loading="lazy" decoding="async" alt="A Nigerian adult learning and working with a laptop in a realistic environment" />
     </figure><div className="network-flow" role="tablist" aria-label="Products, customers, team and duplication">{networkParts.map(([label], index) => <button key={label} role="tab" aria-selected={active === index} aria-controls="network-part-detail" className={active === index ? 'active' : ''} onClick={() => setActive(index)}><span>{String(index + 1).padStart(2, '0')}</span>{label}</button>)}</div></div><div className="network-explanation"><p className="mini-heading">A business built through products, people and duplication</p><p>Network marketing is a business model in which independent distributors introduce genuine products to customers and may also build teams of other distributors.</p><p>Instead of spending heavily on a physical shop, large advertising campaigns or numerous employees, the business often grows through customer relationships, product recommendations, training and the duplication of a working system.</p><div id="network-part-detail" className="active-detail" role="tabpanel" aria-live="polite"><span>{networkParts[active][0]}</span><p>{networkParts[active][1]}</p></div></div></div>
     <aside className="chapter-warning"><strong>Important clarification</strong><p>Network marketing is not automatic wealth. A legitimate business must involve real products, informed customers, responsible sales and transparent compensation. Results are not guaranteed.</p></aside>
-    <section className="accessibility-explainer"><div><p className="mini-heading">Why can the model be accessible?</p><p>Compared with some traditional businesses, network marketing may require less infrastructure. A distributor may not need to rent a shop, manufacture products, employ a large team or create an entire distribution system from the beginning.</p></div><div><p>However, there may still be registration, product, training, transportation, communication and marketing expenses. These costs must be explained before anyone joins.</p><strong>The value is not that it requires no work. It is that an individual can begin within an existing product and training system instead of building every part of a company alone.</strong></div></section>
-    <div className="verification-note" contentEditable suppressContentEditableWarning role="textbox" aria-label="Editable FHG verification note">ALLEN TO CONFIRM: current FHG products, costs, training and compensation information.</div>
+    <section className="accessibility-explainer"><div><p className="mini-heading">Why can the model be accessible?</p><p>Compared with some traditional businesses, network marketing may require less infrastructure. A distributor may not need to rent a shop, manufacture products, employ a large team or create an entire distribution system from the beginning.</p></div><div><p>FHG onboarding and its learning pathway are free. Members can first learn practical skills, look for genuine client work and develop their ability before deciding whether to build a network-marketing business.</p><strong>The value is not that it requires no work. The value is that an individual can learn within an existing training system instead of trying to build every capability alone.</strong></div></section>
   </div>;
 }
 
@@ -107,14 +105,13 @@ const nigeriaReasons = [
 function SkillsBridgeScene({ onNavigate }: { onNavigate: (index: number) => void }) {
   const [active, setActive] = useState(0); const [reason, setReason] = useState(0); const [questionOpen, setQuestionOpen] = useState(false); const definitionIndex = scenes.findIndex(scene => scene.type === 'definition');
   return <div className="skills-bridge-layout">
-    <div className="bridge-opening"><p>One challenge people face when considering a business opportunity is startup capital. Someone may understand the opportunity but still lack money for registration, products, transportation, internet access, marketing and other genuine expenses.</p><div className="approach-strip" aria-label="The FHG starting approach">{['Learn a skill','Use the skill','Earn from real client work','Plan business expenses','Build responsibly'].map((item, index) => <span key={item}><b>{String(index + 1).padStart(2, '0')}</b>{item}</span>)}</div></div>
+    <div className="bridge-opening"><p>FHG is free to join. The starting approach is to learn a useful digital skill, practise it and seek genuine client work before deciding whether to build a network-marketing business.</p><div className="approach-strip" aria-label="The FHG starting approach">{['Learn a skill','Use the skill','Earn from real client work','Plan responsibly','Build responsibly'].map((item, index) => <span key={item}><b>{String(index + 1).padStart(2, '0')}</b>{item}</span>)}</div></div>
     <section className="bridge-explanation"><div><p className="mini-heading">A different starting approach</p><p>Instead of depending immediately on savings or money intended for essential needs, the FHG system introduces practical digital skills that may be offered to real clients.</p><p>These may include website design, graphic design, content creation, social media management, digital marketing and other approved skills.</p><p>When a member becomes competent and secures paying clients, the income <strong>may</strong> help meet personal needs, improve tools and gradually cover legitimate business expenses.</p></div><aside><strong>Freelancing income is not guaranteed.</strong><p>Success requires competence, a portfolio, prospecting, communication, delivery and consistent improvement. Never use rent, school fees, borrowed money or funds you cannot afford to lose.</p></aside></section>
-    <section className="bridge-journey"><p className="mini-heading">Active income can support long-term business building</p><div className="bridge-stage-tabs" role="tablist" aria-label="Five stages from skill to business">{bridgeStages.map(([label], index) => <button key={label} role="tab" aria-selected={active === index} aria-controls="bridge-stage-detail" onClick={() => setActive(index)} className={active === index ? 'active' : ''}><span>{index + 1}</span>{label}</button>)}</div><div id="bridge-stage-detail" className="bridge-stage-detail" role="tabpanel" aria-live="polite"><strong>Stage {active + 1}: {bridgeStages[active][0]}</strong><p>{bridgeStages[active][1]}</p></div><p>The aim is to use skill-based income as one possible financial foundation while learning how to build a responsible, customer-focused and lasting business—not simply to earn and spend everything on registration.</p></section>
+    <section className="bridge-journey"><p className="mini-heading">Active income can support long-term business building</p><div className="bridge-stage-tabs" role="tablist" aria-label="Five stages from skill to business">{bridgeStages.map(([label], index) => <button key={label} role="tab" aria-selected={active === index} aria-controls="bridge-stage-detail" onClick={() => setActive(index)} className={active === index ? 'active' : ''}><span>{index + 1}</span>{label}</button>)}</div><div id="bridge-stage-detail" className="bridge-stage-detail" role="tabpanel" aria-live="polite"><strong>Stage {active + 1}: {bridgeStages[active][0]}</strong><p>{bridgeStages[active][1]}</p></div><p>The aim is to develop a genuine skill, seek real client work and use any income responsibly while learning how to build a customer-focused business. Freelancing income is not guaranteed.</p></section>
     <section className="nigeria-relevance"><p className="mini-heading">Why may this approach be relevant in Nigeria?</p><div className="reason-tabs" role="tablist" aria-label="Five reasons this approach may be relevant in Nigeria">{nigeriaReasons.map(([label], index) => <button key={label} role="tab" aria-selected={reason === index} aria-controls="reason-detail" onClick={() => setReason(index)} className={reason === index ? 'active' : ''}>{label}</button>)}</div><div id="reason-detail" className="reason-detail" role="tabpanel" aria-live="polite"><strong>{nigeriaReasons[reason][0]}</strong><p>{nigeriaReasons[reason][1]}</p></div></section>
     <aside className="chapter-warning"><strong>Balanced view</strong><p>FHG does not remove the challenges of freelancing or network marketing. Members may still face competition, limited client access, product costs, rejection, inconsistent sales and changing economic conditions. Neither freelancing nor network-marketing income is guaranteed. Results depend on skills, effort, customers, sales, consistency, team activity and other circumstances.</p></aside>
-    <div className="bridge-close"><div><p className="mini-heading">The skill can help you start. The system can help you build.</p><p>FHG combines both paths because digital skills may help members create active income, while responsible network marketing provides an opportunity to develop a product-based business over time. The strength is learning, creating genuine value, managing money responsibly and building with a long-term mindset.</p><p><strong>For adults aged 18 and above.</strong> Understand the current costs, products and compensation plan before joining.</p></div><div className="bridge-actions"><button onClick={() => onNavigate(definitionIndex)}>Now show me what FHG is <span>→</span></button><button className="secondary" onClick={() => setQuestionOpen(value => !value)} aria-expanded={questionOpen} aria-controls="chapter-question">I have a question</button></div></div>
-    {questionOpen && <label id="chapter-question" className="chapter-question"><span>What would you like Allen to clarify?</span><textarea rows={2} maxLength={600} autoFocus placeholder="Type your question here. You can submit it in the application scene." /></label>}
-    <div className="verification-note" contentEditable suppressContentEditableWarning role="textbox" aria-label="Editable FHG system verification note">ALLEN TO CONFIRM: current FHG skills, client-support process, products, business costs, training and compensation structure.</div>
+    <div className="bridge-close"><div><p className="mini-heading">The skill can help you start. The system can help you build.</p><p>FHG combines both paths because digital skills may help members create active income, while responsible network marketing provides an opportunity to develop a product-based business over time. The strength is learning, creating genuine value, managing money responsibly and building with a long-term mindset.</p><p><strong>For adults aged 18 and above.</strong> Understand the products, responsibilities and compensation plan before starting a network-marketing business.</p></div><div className="bridge-actions"><button onClick={() => onNavigate(definitionIndex)}>Now show me what FHG is <span>→</span></button><button className="secondary" onClick={() => setQuestionOpen(value => !value)} aria-expanded={questionOpen} aria-controls="chapter-question">I have a question</button></div></div>
+    {questionOpen && <label id="chapter-question" className="chapter-question"><span>What would you like someone to clarify?</span><textarea rows={2} maxLength={600} autoFocus placeholder="Type your question here. You can submit it in the application scene." /></label>}
   </div>;
 }
 
@@ -153,7 +150,7 @@ function SceneFour() {
 
 const journeySteps = [
   ['Understand', 'Learn what FHG is, what it offers and what it requires.'],
-  ['Ask questions', 'Discuss the products, training, responsibilities, costs and compensation structure.'],
+  ['Ask questions', 'Discuss the products, training, responsibilities and compensation structure.'],
   ['Decide', 'Review the information without pressure before making a commitment.'],
   ['Learn', 'Attend approved training and develop practical communication, digital and business skills.'],
   ['Apply', 'Use the training consistently, serve real customers and build responsibly.'],
@@ -167,7 +164,7 @@ function SceneFive() {
         <div className="journey-text"><h2>{title}</h2><p>{description}</p></div>
       </li>)}
     </ol>
-    <p className="journey-close"><span>Full clarity</span>No step should be hidden. You should understand the complete process before registering or paying.</p>
+    <p className="journey-close"><span>Full clarity</span>No step should be hidden. You should understand the complete process before starting a network-marketing business.</p>
   </div>;
 }
 
@@ -226,7 +223,7 @@ function SceneSeven({ onNavigate }: { onNavigate: (index: number) => void }) {
 
 const neverPromises = [
   'No guaranteed earnings', 'No overnight success', 'No automatic employment', 'No income without effort',
-  'No hidden registration information', 'No pressure to decide immediately', 'No fake testimonials', 'No misleading product claims',
+  'No hidden conditions', 'No pressure to decide immediately', 'No fake testimonials', 'No misleading product claims',
 ];
 
 function SceneEight() {
@@ -238,24 +235,8 @@ function SceneEight() {
       <div className="promise-controls"><button onClick={() => setReveal(value => Math.max(0, value - 1))} disabled={reveal === 0} aria-label="Previous transparency statement">←</button><div>{neverPromises.map((item, index) => <button key={item} onClick={() => setReveal(index)} className={index === reveal ? 'active' : ''} aria-label={`Reveal: ${item}`} aria-current={index === reveal ? 'step' : undefined} />)}</div><button onClick={() => setReveal(value => Math.min(neverPromises.length - 1, value + 1))} disabled={reveal === neverPromises.length - 1} aria-label="Next transparency statement">→</button></div>
     </div>
     <div className="promise-details">
-      <p>Before you register, Allen will explain the current costs, available products, training structure, responsibilities and compensation information.</p>
-      <div className="cost-editor-wrap"><div><span>Verified information only</span><b>Editable area</b></div><div className="cost-editor" contentEditable suppressContentEditableWarning role="textbox" aria-multiline="true" aria-label="Current and verified cost information">INSERT CURRENT AND VERIFIED COST INFORMATION HERE.</div><small>Product, health, cost, compensation and income details must be verified before publication.</small></div>
+      <p>Before you begin, someone will explain the available products, training structure, responsibilities and compensation information. FHG onboarding and its learning pathway are free.</p>
     </div>
-  </div>;
-}
-
-const evidenceAreas = [
-  'Allen’s genuine personal story', 'Approved training photographs', 'Real member experiences', 'Verifiable digital projects',
-  'Product education', 'Community activities', 'Genuine customer stories', 'Approved FHG events',
-];
-
-function SceneNine() {
-  return <div className="evidence-layout">
-    <div className="evidence-intro"><span>Verification first</span><p>Every testimonial must use a real person or approved identifier. Never add fake names, earnings, photographs or success stories.</p></div>
-    <div className="evidence-grid" aria-label="Editable areas for verified experience and proof">
-      {evidenceAreas.map((area, index) => <div className="evidence-editor" key={area} contentEditable suppressContentEditableWarning role="textbox" aria-multiline="true" aria-label={`Editable area: ${area}`}><span contentEditable={false} aria-hidden="true">{String(index + 1).padStart(2, '0')}</span><strong contentEditable={false}>{area}</strong><p>ADD VERIFIED MATERIAL HERE.</p></div>)}
-    </div>
-    <div className="evidence-placeholder" contentEditable suppressContentEditableWarning role="textbox" aria-multiline="true" aria-label="Verified testimonials, photographs and media"><span contentEditable={false}>Editable verified-media area</span><strong>ALLEN WILL ADD VERIFIED TESTIMONIALS, PHOTOGRAPHS AND MEDIA HERE.</strong></div>
   </div>;
 }
 
@@ -264,10 +245,10 @@ const faqs = [
   ['Will I start earning immediately?', 'There is no guaranteed earning date or amount. Results depend on what you learn, how you apply it, customer demand, sales activity, team performance and other circumstances.'],
   ['Do I have to recruit people?', 'Team building may be part of network marketing, but the business should also involve genuine products, customer service and responsible sales. Allen will explain the current structure before you decide.'],
   ['Will I receive digital-skills training?', 'FHG is described as combining digital skills with network marketing. The exact skills, schedule and training access should be confirmed with Allen.'],
-  ['How much does it cost?', 'Current costs will be explained clearly before registration. You should not make a payment until you understand what the payment covers.'],
+  ['How much does it cost?', 'It does not cost anything to join FHG or begin its learning pathway.'],
   ['Can I participate while studying or working?', 'Many people explore it alongside school, employment or another business, but you should consider whether you have enough time to participate consistently.'],
   ['Is income guaranteed?', 'No. Income is not guaranteed.'],
-  ['Can I speak directly with Allen?', 'Yes. You can request a WhatsApp conversation before making any decision.'],
+  ['Can I speak directly with someone?', 'Yes. You can request a WhatsApp conversation with someone before making any decision.'],
 ] as const;
 
 function SceneTen() {
@@ -292,7 +273,6 @@ function SceneBody({ type, onNavigate }: { type: typeof scenes[number]['type']; 
   if (type === 'cards') return <SceneSix />;
   if (type === 'profile') return <SceneSeven onNavigate={onNavigate} />;
   if (type === 'transparency') return <SceneEight />;
-  if (type === 'proof') return <SceneNine />;
   if (type === 'faq') return <SceneTen />;
   if (type === 'form') return <LeadForm />;
   return <><p className="intro small">This scene is ready for the final educational content.</p><Placeholder lines={3} /></>;
@@ -342,7 +322,7 @@ function LeadForm() {
     finally { setSubmitting(false); }
   }
 
-  if (success) return <div className="form-success" role="status"><span>✓</span><h2>Thank you, {success.name}.</h2><p>Your request has been received. Allen will contact you through your selected method: <strong>{success.method}</strong>.</p><p>Before making any decision, make sure you understand the costs, products, responsibilities and compensation structure.</p></div>;
+  if (success) return <div className="form-success" role="status"><span>✓</span><h2>Thank you, {success.name}.</h2><p>Your request has been received. Allen will contact you through your selected method: <strong>{success.method}</strong>.</p><p>FHG onboarding is free. Before starting a network-marketing business, make sure you understand the products, responsibilities and compensation structure.</p></div>;
   const fieldError = (name: string) => errors[name] ? <small className="field-error" id={`${name}-error`}>{errors[name]}</small> : null;
   return <div className="lead-capture-layout">
     <div className="lead-intro"><p>Complete this short form to receive the introductory information or request a direct conversation with Allen. Submitting this form does not register you or require payment.</p><aside><span>Privacy</span><p>Your details are used only to respond to this enquiry. You will not be added to a WhatsApp group or sent marketing messages without consent. Never submit bank details, identity numbers or card information.</p></aside></div>
@@ -402,7 +382,7 @@ function EntryGate({ onExplain }: { onExplain: () => void }) {
     if (!whatsappNumber) nextErrors.form = 'Allen’s WhatsApp number has not been configured yet.';
     if (Object.keys(nextErrors).length) { setErrors(nextErrors); return; }
     setErrors({}); submitted.current = true;
-    const message = [`Hello Allen, my name is ${firstName}.`, 'I came from the FHG explainer advert and I already understand network marketing.', 'I would like to discuss the registration process.', `My current status is ${status}.`, `My WhatsApp number is ${whatsapp}.`, question ? `My question is: ${question}` : '', 'I understand that this is not a job offer or guaranteed-income programme. Please explain the current costs, products, responsibilities and compensation plan before I decide.'].filter(Boolean).join('\n\n');
+    const message = [`Hello Allen, my name is ${firstName}.`, 'I came from the FHG explainer advert and I already understand network marketing.', 'I would like to join the free FHG learning pathway and discuss how to begin.', `My current status is ${status}.`, `My WhatsApp number is ${whatsapp}.`, question ? `My question is: ${question}` : '', 'I understand that this is not a job offer or guaranteed-income programme. Please explain the products, responsibilities and compensation plan for the network-marketing business before I decide.'].filter(Boolean).join('\n\n');
     window.location.href = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
   }
 
@@ -415,12 +395,12 @@ function EntryGate({ onExplain }: { onExplain: () => void }) {
       <p className="entry-lead">Choose the path that best matches what you understood from the advert. You can review the full explanation before making any decision.</p>
       <div className="entry-options">
         <button className="entry-option entry-ready" onClick={() => { startedAt.current = Date.now(); setMode('register'); }}><span>01</span><div><strong>I understand network marketing</strong><p>I have seen the advert, understand the basic model and would like to discuss registration with Allen.</p></div><i>→</i></button>
-        <button className="entry-option entry-learn" onClick={beginExplainer}><span>02</span><div><strong>I need more explanation</strong><p>Take me through the complete FHG explainer, including the skills, business model, costs and responsibilities.</p></div><i>↓</i></button>
+        <button className="entry-option entry-learn" onClick={beginExplainer}><span>02</span><div><strong>I need more explanation</strong><p>Take me through the complete FHG explainer, including the skills, business model and responsibilities.</p></div><i>↓</i></button>
       </div>
       <p className="entry-disclaimer">For adults aged 18 and above. FHG is not an employer or guaranteed-income programme. Choosing the registration path does not require payment or complete registration.</p>
     </section> : <section className="entry-registration" aria-labelledby="register-title">
       <button className="entry-back" type="button" onClick={() => { setErrors({}); setMode('choice'); }}>← Back to choices</button>
-      <div className="entry-form-intro"><p className="eyebrow"><span />Registration interest</p><h1 id="register-title">Connect with Allen on WhatsApp</h1><p>Share a few details and we will prepare a WhatsApp message for Allen. You will review it and tap <strong>Send</strong> inside WhatsApp. This does not register you or require payment.</p><aside><strong>Before deciding</strong><p>Ask Allen to explain the current costs, products, responsibilities and compensation plan.</p></aside></div>
+      <div className="entry-form-intro"><p className="eyebrow"><span />Registration interest</p><h1 id="register-title">Connect with Allen on WhatsApp</h1><p>Share a few details and we will prepare a WhatsApp message for Allen. You will review it and tap <strong>Send</strong> inside WhatsApp. FHG onboarding is free.</p><aside><strong>Before deciding</strong><p>Ask someone to explain the products, responsibilities and compensation plan for the network-marketing business.</p></aside></div>
       <form className="entry-form" onSubmit={continueToWhatsApp} noValidate>
         <label><span>First name *</span><input name="firstName" autoComplete="given-name" aria-invalid={!!errors.firstName} aria-describedby={errors.firstName ? 'entry-firstName-error' : undefined} />{errors.firstName && <small id="entry-firstName-error">{errors.firstName}</small>}</label>
         <label><span>Your WhatsApp number *</span><input name="whatsapp" type="tel" autoComplete="tel" placeholder="+234…" aria-invalid={!!errors.whatsapp} aria-describedby={errors.whatsapp ? 'entry-whatsapp-error' : undefined} />{errors.whatsapp && <small id="entry-whatsapp-error">{errors.whatsapp}</small>}</label>
