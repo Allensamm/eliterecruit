@@ -14,7 +14,7 @@ const scenes = [
   { title: 'What we will never promise you', eyebrow: 'Transparency', type: 'transparency' },
   { title: 'Do not take the message on faith. Review the evidence.', eyebrow: 'Real Experience and Proof', type: 'proof' },
   { title: 'Frequently Asked Questions', eyebrow: 'Clear answers before you decide', type: 'faq' },
-  { title: 'Lead Capture', eyebrow: 'Your next step', type: 'form' },
+  { title: 'Ready to understand the next step?', eyebrow: 'Lead Capture', type: 'form' },
 ] as const;
 
 function SceneFrame({ index, eyebrow, title, children }: { index: number; eyebrow: string; title: string; children: ReactNode }) {
@@ -235,10 +235,67 @@ function SceneBody({ type, onNavigate }: { type: typeof scenes[number]['type']; 
 }
 
 function LeadForm() {
-  const [sent, setSent] = useState(false);
-  function submit(event: FormEvent) { event.preventDefault(); setSent(true); }
-  if (sent) return <div className="form-success" role="status"><span>✓</span><h2>Structure confirmed</h2><p>The final submission flow will be connected when content is approved.</p></div>;
-  return <form className="lead-form" onSubmit={submit}><label><span>Full name</span><input name="name" autoComplete="name" placeholder="Your name" required /></label><label><span>Email address</span><input type="email" name="email" autoComplete="email" placeholder="you@example.com" required /></label><label><span>Phone number</span><input type="tel" name="phone" autoComplete="tel" placeholder="+234" /></label><button type="submit">Test application flow <span>→</span></button><small>Placeholder form only — no information is sent or stored.</small></form>;
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [success, setSuccess] = useState<{ name: string; method: string } | null>(null);
+  const [status, setStatus] = useState('');
+  const [interest, setInterest] = useState('');
+  const [contactMethod, setContactMethod] = useState('');
+  const startedAt = useRef(0);
+  const submitted = useRef(false);
+  useEffect(() => { startedAt.current = Date.now(); }, []);
+  const whatsappNumber = process.env.NEXT_PUBLIC_ALLEN_WHATSAPP_NUMBER?.replace(/\D/g, '') || '';
+  const whatsappMessage = `Hello Allen, I have reviewed the FHG explainer website. I am interested in learning more about ${interest || '[selected interest]'}. My current status is ${status || '[selected status]'}.`;
+  const whatsappHref = whatsappNumber ? `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(whatsappMessage)}` : '';
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (submitting || submitted.current) return;
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const nextErrors: Record<string, string> = {};
+    const required = ['firstName', 'whatsapp', 'status', 'interest', 'contactMethod', 'bestTime'];
+    required.forEach(name => { if (!String(data.get(name) || '').trim()) nextErrors[name] = 'Please complete this field.'; });
+    if (!data.get('ageConfirmed')) nextErrors.ageConfirmed = 'Please confirm that you are at least 18 years old.';
+    if (!data.get('consent')) nextErrors.consent = 'Consent is required before Allen can contact you.';
+    if (contactMethod === 'Email' && !String(data.get('email') || '').trim()) nextErrors.email = 'Please enter the email address Allen should use.';
+    const phone = String(data.get('whatsapp') || '').replace(/[\s()-]/g, '');
+    if (phone && !/^\+?[0-9]{10,15}$/.test(phone)) nextErrors.whatsapp = 'Enter a valid WhatsApp number, including the country code.';
+    if (Object.keys(nextErrors).length) { setErrors(nextErrors); return; }
+    setErrors({}); setSubmitting(true);
+    const payload = Object.fromEntries(data.entries());
+    payload.formStartedAt = String(startedAt.current);
+    payload.submissionId = crypto.randomUUID();
+    try {
+      const response = await fetch('/api/leads', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(result.error || 'We could not send your request. Please try again.');
+      submitted.current = true;
+      setSuccess({ name: String(data.get('firstName')), method: String(data.get('contactMethod')) });
+    } catch (error) { setErrors({ form: error instanceof Error ? error.message : 'We could not send your request. Please try again.' }); }
+    finally { setSubmitting(false); }
+  }
+
+  if (success) return <div className="form-success" role="status"><span>✓</span><h2>Thank you, {success.name}.</h2><p>Your request has been received. Allen will contact you through your selected method: <strong>{success.method}</strong>.</p><p>Before making any decision, make sure you understand the costs, products, responsibilities and compensation structure.</p></div>;
+  const fieldError = (name: string) => errors[name] ? <small className="field-error" id={`${name}-error`}>{errors[name]}</small> : null;
+  return <div className="lead-capture-layout">
+    <div className="lead-intro"><p>Complete this short form to receive the introductory information or request a direct conversation with Allen. Submitting this form does not register you or require payment.</p><aside><span>Privacy</span><p>Your details are used only to respond to this enquiry. You will not be added to a WhatsApp group or sent marketing messages without consent. Never submit bank details, identity numbers or card information.</p></aside></div>
+    <form className="lead-form complete" onSubmit={submit} noValidate>
+      <label><span>First name *</span><input name="firstName" autoComplete="given-name" aria-invalid={!!errors.firstName} aria-describedby={errors.firstName ? 'firstName-error' : undefined} />{fieldError('firstName')}</label>
+      <label><span>WhatsApp number *</span><input name="whatsapp" type="tel" autoComplete="tel" placeholder="+234…" aria-invalid={!!errors.whatsapp} aria-describedby={errors.whatsapp ? 'whatsapp-error' : undefined} />{fieldError('whatsapp')}</label>
+      <label><span>Current status *</span><select name="status" value={status} onChange={e => setStatus(e.target.value)} aria-invalid={!!errors.status}><option value="">Select one</option>{['Student','NYSC member','Graduate','Employee','Freelancer','Business owner','Other'].map(x => <option key={x}>{x}</option>)}</select>{fieldError('status')}</label>
+      <label><span>Primary interest *</span><select name="interest" value={interest} onChange={e => setInterest(e.target.value)} aria-invalid={!!errors.interest}><option value="">Select one</option>{['Digital skills','Personal development','Additional income opportunity','Product information','Network marketing','I am still exploring'].map(x => <option key={x}>{x}</option>)}</select>{fieldError('interest')}</label>
+      <label><span>Preferred contact method *</span><select name="contactMethod" value={contactMethod} onChange={e => setContactMethod(e.target.value)} aria-invalid={!!errors.contactMethod}><option value="">Select one</option>{['WhatsApp message','WhatsApp call','Email'].map(x => <option key={x}>{x}</option>)}</select>{fieldError('contactMethod')}</label>
+      <label><span>Best time to contact *</span><input name="bestTime" placeholder="e.g. Weekdays after 6pm" aria-invalid={!!errors.bestTime} />{fieldError('bestTime')}</label>
+      {contactMethod === 'Email' && <label><span>Email address *</span><input name="email" type="email" autoComplete="email" aria-invalid={!!errors.email} />{fieldError('email')}</label>}
+      <label className="question-field"><span>Optional question</span><textarea name="question" rows={2} maxLength={600} placeholder="What would you like Allen to clarify?" /></label>
+      <label className="check-field"><input type="checkbox" name="ageConfirmed" value="yes" aria-invalid={!!errors.ageConfirmed} /><span>I confirm that I am 18 years old or older.</span>{fieldError('ageConfirmed')}</label>
+      <label className="check-field"><input type="checkbox" name="consent" value="yes" aria-invalid={!!errors.consent} /><span>I agree to be contacted about this enquiry. I understand that this is not a job offer or guaranteed-income programme.</span>{fieldError('consent')}</label>
+      <div className="spam-field" aria-hidden="true"><label>Website<input name="website" tabIndex={-1} autoComplete="off" /></label></div>
+      {errors.form && <p className="form-error" role="alert">{errors.form}</p>}
+      <div className="lead-actions"><button type="submit" disabled={submitting}>{submitting ? 'Sending request…' : 'Request the introduction'} <span>→</span></button>{whatsappHref ? <a href={whatsappHref} data-message={whatsappMessage} target="_blank" rel="noreferrer">Chat with Allen on WhatsApp <span>↗</span></a> : <button type="button" data-message={whatsappMessage} className="whatsapp-unconfigured" disabled title="Allen’s WhatsApp number must be configured">Chat with Allen on WhatsApp <span>↗</span></button>}</div>
+    </form>
+  </div>;
 }
 
 function Progress({ current, onSelect }: { current: number; onSelect: (index: number) => void }) {
