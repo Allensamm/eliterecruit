@@ -4,7 +4,7 @@ import { FormEvent, ReactNode, useCallback, useEffect, useRef, useState } from '
 const TRANSITION_MS = 600;
 const STORAGE_KEY = 'fhg-current-scene';
 const scenes = [
-  { title: 'Your future should not depend on one option', eyebrow: 'Opening Hook', type: 'hero' },
+  { title: 'Your future should not depend on one option', eyebrow: '', type: 'hero' },
   { title: 'Having ambition is good. Having a system is better.', eyebrow: 'The Reality', type: 'statement' },
   { title: 'So, what exactly is FHG?', eyebrow: 'What Is FHG?', type: 'definition' },
   { title: 'One community. Two development paths.', eyebrow: 'The Two-Part System', type: 'split' },
@@ -18,7 +18,7 @@ const scenes = [
 ] as const;
 
 function SceneFrame({ index, eyebrow, title, children }: { index: number; eyebrow: string; title: string; children: ReactNode }) {
-  return <section className="scene" aria-label={`Scene ${index + 1}: ${title}`}><div className="scene-content" data-scroll-region><div className="scene-grid"><div className="scene-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</div><div className="scene-main"><p className="eyebrow"><span />{eyebrow}</p><h1 tabIndex={-1}>{title}</h1>{children}</div></div></div></section>;
+  return <section className="scene" aria-label={`Scene ${index + 1}: ${title}`}><div className="scene-content" data-scroll-region><div className="scene-grid"><div className="scene-index" aria-hidden="true">{String(index + 1).padStart(2, '0')}</div><div className="scene-main">{eyebrow && <p className="eyebrow"><span />{eyebrow}</p>}<h1 tabIndex={-1}>{title}</h1>{children}</div></div></div></section>;
 }
 
 function Placeholder({ lines = 2 }: { lines?: number }) {
